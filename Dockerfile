@@ -5,4 +5,4 @@ RUN apk add --no-cache nodejs yarn
 COPY . /ww-docker-build
 RUN cd /ww-docker-build && yarn --frozen-lockfile
 
-ENTRYPOINT ["/code/entrypoint.sh"]
+ENTRYPOINT ["/ww-docker-build/entrypoint.sh"]
