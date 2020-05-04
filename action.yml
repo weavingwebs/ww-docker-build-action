@@ -1,6 +1,9 @@
-name: Docker Build
+name: WW Docker Build Action
 description: Build & push docker images from ww-versions.yml
 author: Sut3kh
+branding:
+  color: orange
+  icon: anchor
 
 runs:
   using: docker
