@@ -4,4 +4,4 @@ set -eu
 
 SRC_PATH=$(pwd)
 cd /ww-docker-build
-yarn run build
+yarn run build "$SRC_PATH"
