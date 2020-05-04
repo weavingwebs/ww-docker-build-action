@@ -28,7 +28,7 @@ const dockerBuildArgs = Object.keys(versions).map(k => `VERSION_${k.toUpperCase(
 const buildCmdArgs = [
   'build',
   '-t',
-  INPUT_REPOSITORY,
+  INPUT_REPOSITORY.toLowerCase(),
 ];
 dockerBuildArgs.forEach(arg => buildCmdArgs.push('--build-arg', arg));
 buildCmdArgs.push('.');
