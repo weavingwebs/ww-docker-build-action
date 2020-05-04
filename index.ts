@@ -17,6 +17,9 @@ if (!INPUT_REPOSITORY) {
   process.exit(1);
 }
 
+// Docker requires the repo name to be lowercase.
+const repoName = INPUT_REPOSITORY.toLowerCase();
+
 // Parse ww-versions.yml.
 const versionsFile = readFileSync(path.join(INPUT_PATH || '.', 'ww-versions.yml'), 'utf8');
 const versions = YAML.parse(versionsFile);
@@ -28,7 +31,7 @@ const dockerBuildArgs = Object.keys(versions).map(k => `VERSION_${k.toUpperCase(
 const buildCmdArgs = [
   'build',
   '-t',
-  INPUT_REPOSITORY.toLowerCase(),
+  repoName,
 ];
 dockerBuildArgs.forEach(arg => buildCmdArgs.push('--build-arg', arg));
 buildCmdArgs.push('.');
@@ -47,7 +50,7 @@ if (INPUT_PUSH && INPUT_PUSH != '0') {
     process.exit(1);
   }
 
-  ret = spawnSync('docker', ['push', INPUT_REPOSITORY], {stdio: 'inherit'});
+  ret = spawnSync('docker', ['push', repoName], {stdio: 'inherit'});
   if (ret.status) {
     console.error('Push failed');
     process.exit(1);
