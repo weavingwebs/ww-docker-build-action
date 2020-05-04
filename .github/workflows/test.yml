@@ -15,6 +15,6 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: Sut3kh/ww-docker-build-action
+          repository: Sut3kh/ww-docker-build-action/test
           push: "1"
           path: ./test

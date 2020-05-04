@@ -18,7 +18,7 @@ if (!INPUT_REPOSITORY) {
 }
 
 // Docker requires the repo name to be lowercase.
-const repoName = INPUT_REPOSITORY.toLowerCase();
+const repoName = `${INPUT_REGISTRY}/${INPUT_REPOSITORY.toLowerCase()}`;
 
 // Parse ww-versions.yml.
 const versionsFile = readFileSync(path.join(INPUT_PATH || '.', 'ww-versions.yml'), 'utf8');
