@@ -1,0 +1,20 @@
+name: Test the action
+on:
+  push:
+    branches:
+      - master
+jobs:
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@master
+      - name: Push to GitHub Packages
+        uses: ./action.yml
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: Sut3kh/ww-docker-build-action
+          push: "1"
+          path: ./test

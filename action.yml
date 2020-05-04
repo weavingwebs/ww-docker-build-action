@@ -1,0 +1,30 @@
+name: Docker Build
+description: Build & push docker images from ww-versions.yml
+author: Sut3kh
+
+runs:
+  using: docker
+  image: Dockerfile
+
+inputs:
+  registry:
+    description: Docker registry
+    required: false
+    default: "docker.pkg.github.com"
+  repository:
+    description: Docker repository
+    required: true
+  username:
+    description: Docker registry username
+    required: true
+  password:
+    description: Docker registry password
+    required: true
+  push:
+    description: Push to registry
+    required: false
+    default: "1"
+  path:
+    description: "The path to ww-versions.yml in the repo."
+    required: false
+    default: "."
