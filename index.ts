@@ -1,5 +1,5 @@
 import YAML from 'yaml';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { spawnSync } from 'child_process';
 import path from 'path';
 
@@ -21,11 +21,20 @@ if (!INPUT_REPOSITORY) {
 const repoName = `${INPUT_REGISTRY}/${INPUT_REPOSITORY.toLowerCase()}`;
 
 // Parse ww-versions.yml.
-const versionsFile = readFileSync(path.join(INPUT_PATH || '.', 'ww-versions.yml'), 'utf8');
-const versions = YAML.parse(versionsFile);
+let dockerBuildArgs: string[] = [];
+const filePath = path.join(INPUT_PATH || '.', 'ww-versions.yml')
+if (!existsSync(filePath)) {
+  console.debug('No ww-versions.yml found');
+}
+else {
+  const versionsFile = readFileSync(path.join(INPUT_PATH || '.', 'ww-versions.yml'), 'utf8');
+  const versions = YAML.parse(versionsFile);
 
-// Build a list of docker 'build args' from the versions.
-const dockerBuildArgs = Object.keys(versions).map(k => `VERSION_${k.toUpperCase()}=${versions[k].version}`);
+  // Build a list of docker 'build args' from the versions.
+  if (versions) {
+    dockerBuildArgs = Object.keys(versions).map(k => `VERSION_${k.toUpperCase()}=${versions[k].version}`);
+  }
+}
 
 // Build.
 const buildCmdArgs = [
