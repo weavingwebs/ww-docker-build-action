@@ -36,6 +36,16 @@ else {
   }
 }
 
+// Login before build in case we need to pull any images.
+if ((INPUT_PUSH && INPUT_PUSH != '0') || (INPUT_PASSWORD && INPUT_USERNAME)) {
+  const loginCmd = `echo "${INPUT_PASSWORD}" | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}`;
+  const ret = spawnSync('sh', ['-c', loginCmd], {stdio: 'inherit'});
+  if (ret.status) {
+    console.error('Login failed');
+    process.exit(1);
+  }
+}
+
 // Build.
 const buildCmdArgs = [
   'build',
@@ -52,13 +62,6 @@ if (ret.status) {
 
 // Push.
 if (INPUT_PUSH && INPUT_PUSH != '0') {
-  const loginCmd = `echo "${INPUT_PASSWORD}" | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}`;
-  ret = spawnSync('sh', ['-c', loginCmd], {stdio: 'inherit'});
-  if (ret.status) {
-    console.error('Login failed');
-    process.exit(1);
-  }
-
   ret = spawnSync('docker', ['push', repoName], {stdio: 'inherit'});
   if (ret.status) {
     console.error('Push failed');
