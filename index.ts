@@ -37,7 +37,7 @@ else {
 }
 
 // Login before build in case we need to pull any images.
-if ((INPUT_PUSH && INPUT_PUSH != '0') || (INPUT_PASSWORD && INPUT_USERNAME)) {
+if (INPUT_PUSH && INPUT_PUSH === '1' && INPUT_PASSWORD && INPUT_USERNAME) {
   const loginCmd = `echo "${INPUT_PASSWORD}" | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}`;
   const ret = spawnSync('sh', ['-c', loginCmd], {stdio: 'inherit'});
   if (ret.status) {

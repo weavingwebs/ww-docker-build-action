@@ -19,10 +19,10 @@ inputs:
     required: true
   username:
     description: Docker registry username
-    required: true
+    required: false
   password:
     description: Docker registry password
-    required: true
+    required: false
   push:
     description: Push to registry
     required: false
