@@ -38,5 +38,5 @@ export function build({repoName, inputPath}: BuildInput): boolean {
   dockerBuildArgs.forEach(arg => buildCmdArgs.push('--build-arg', arg));
   buildCmdArgs.push('.');
   const ret = spawnSync('docker', buildCmdArgs, {stdio: 'inherit'});
-  return !!ret.status;
+  return !ret.status;
 }
