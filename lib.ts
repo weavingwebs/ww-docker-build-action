@@ -6,17 +6,22 @@ import { spawnSync } from 'child_process';
 
 type BuildInput = {
   repoName: string;
+  versionsPath?: string;
   customBuildArgs?: Record<string, string>;
 }
 
-export function build({repoName, customBuildArgs}: BuildInput): boolean {
+export function build({repoName, versionsPath, customBuildArgs}: BuildInput): boolean {
+  if (!versionsPath) {
+    versionsPath = '.';
+  }
+
   let dockerBuildArgs: string[] = [];
-  const filePath = path.join('.', 'ww-versions.yml')
+  const filePath = path.join(versionsPath, 'ww-versions.yml')
   if (!existsSync(filePath)) {
     console.debug('No ww-versions.yml found');
   }
   else {
-    const versionsFile = readFileSync(filePath, 'utf8');
+    const versionsFile = readFileSync(path.join(versionsPath, 'ww-versions.yml'), 'utf8');
     const versions = YAML.parse(versionsFile);
 
     // Build a list of docker 'build args' from the versions.

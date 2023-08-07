@@ -10,7 +10,16 @@ if (process.argv.length < 3) {
 process.chdir(process.argv[2]);
 
 // Get inputs.
-const {INPUT_REGISTRY, INPUT_REPOSITORY, INPUT_USERNAME, INPUT_PASSWORD, INPUT_PUSH, INPUT_PATH, INPUT_BUILD_ARGS} = process.env;
+const {
+  INPUT_REGISTRY,
+  INPUT_REPOSITORY,
+  INPUT_USERNAME,
+  INPUT_PASSWORD,
+  INPUT_PUSH,
+  INPUT_PATH,
+  INPUT_VERSIONS_PATH,
+  INPUT_BUILD_ARGS,
+} = process.env;
 if (!INPUT_REPOSITORY) {
   console.error('Missing env variable: INPUT_REPOSITORY');
   process.exit(1);
@@ -41,7 +50,7 @@ if (INPUT_PATH) {
 }
 
 // Build.
-if (!build({repoName, customBuildArgs})) {
+if (!build({repoName, versionsPath: INPUT_VERSIONS_PATH, customBuildArgs})) {
   console.error('Image failed to build');
   process.exit(1);
 }

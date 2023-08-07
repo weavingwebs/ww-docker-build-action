@@ -28,7 +28,11 @@ inputs:
     required: false
     default: "1"
   path:
-    description: "The path to ww-versions.yml in the repo."
+    description: "The path to run docker build in."
+    required: false
+    default: "."
+  versions_path:
+    description: "The path to ww-versions.yml in the repo (relative to path)."
     required: false
     default: "."
   build_args:
