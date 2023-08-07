@@ -18,3 +18,5 @@ jobs:
           repository: ${{ github.repository }}/test
           push: "1"
           path: ./test
+          build_args: |
+            CUSTOM_ARG: "custom"

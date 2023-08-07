@@ -31,3 +31,7 @@ inputs:
     description: "The path to ww-versions.yml in the repo."
     required: false
     default: "."
+  build_args:
+    description: "Build arguments to pass to docker build (yaml key/value pairs)."
+    required: false
+    default: ""

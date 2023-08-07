@@ -1,5 +1,6 @@
 import { spawnSync } from 'child_process';
 import { build } from './lib';
+import YAML from 'yaml';
 
 // Get directory.
 if (process.argv.length < 3) {
@@ -9,7 +10,7 @@ if (process.argv.length < 3) {
 process.chdir(process.argv[2]);
 
 // Get inputs.
-const {INPUT_REGISTRY, INPUT_REPOSITORY, INPUT_USERNAME, INPUT_PASSWORD, INPUT_PUSH, INPUT_PATH} = process.env;
+const {INPUT_REGISTRY, INPUT_REPOSITORY, INPUT_USERNAME, INPUT_PASSWORD, INPUT_PUSH, INPUT_PATH, INPUT_BUILD_ARGS} = process.env;
 if (!INPUT_REPOSITORY) {
   console.error('Missing env variable: INPUT_REPOSITORY');
   process.exit(1);
@@ -28,8 +29,14 @@ if (INPUT_PUSH && INPUT_PUSH === '1' && INPUT_PASSWORD && INPUT_USERNAME) {
   }
 }
 
+// Parse build args if provided.
+let customBuildArgs: Record<string, string>|undefined;
+if (INPUT_BUILD_ARGS) {
+  customBuildArgs = YAML.parse(INPUT_BUILD_ARGS);
+}
+
 // Build.
-if (!build({repoName, inputPath: INPUT_PATH})) {
+if (!build({repoName, inputPath: INPUT_PATH, customBuildArgs})) {
   console.error('Image failed to build');
   process.exit(1);
 }

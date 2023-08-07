@@ -2,7 +2,9 @@ FROM busybox
 
 ARG VERSION_TEST_A
 ARG VERSION_TEST_B
+ARG CUSTOM_ARG
 ENV VERSION_TEST_A ${VERSION_TEST_A}
 ENV VERSION_TEST_B ${VERSION_TEST_B}
+ENV CUSTOM_ARG ${CUSTOM_ARG}
 
-RUN sh -c '[ "$VERSION_TEST_A" = "A" ] && [ "$VERSION_TEST_B" = "B" ] && echo "success"'
+RUN sh -c '[ "$VERSION_TEST_A" = "A" ] && [ "$VERSION_TEST_B" = "B" ] && [ "$CUSTOM_ARG" = "custom" ] && echo "success"'

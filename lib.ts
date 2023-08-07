@@ -7,9 +7,10 @@ import { spawnSync } from 'child_process';
 type BuildInput = {
   repoName: string;
   inputPath?: string;
+  customBuildArgs?: Record<string, string>;
 }
 
-export function build({repoName, inputPath}: BuildInput): boolean {
+export function build({repoName, inputPath, customBuildArgs}: BuildInput): boolean {
   if (!inputPath) {
     inputPath = '.';
   }
@@ -27,6 +28,13 @@ export function build({repoName, inputPath}: BuildInput): boolean {
     if (versions) {
       dockerBuildArgs = Object.keys(versions).map(k => `VERSION_${k.toUpperCase()}=${versions[k].version}`);
     }
+  }
+
+  // Merge in custom build args.
+  if (customBuildArgs) {
+    Object.entries(customBuildArgs).forEach(([k, v]) => {
+      dockerBuildArgs.push(`${k}=${v}`);
+    });
   }
 
   // Build.
