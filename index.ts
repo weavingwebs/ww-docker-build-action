@@ -35,8 +35,13 @@ if (INPUT_BUILD_ARGS) {
   customBuildArgs = YAML.parse(INPUT_BUILD_ARGS);
 }
 
+// Change to input path.
+if (INPUT_PATH) {
+  process.chdir(INPUT_PATH);
+}
+
 // Build.
-if (!build({repoName, inputPath: INPUT_PATH, customBuildArgs})) {
+if (!build({repoName, customBuildArgs})) {
   console.error('Image failed to build');
   process.exit(1);
 }
